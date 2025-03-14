@@ -1,34 +1,31 @@
-name: 'Chromatic Deployment'
+name: "Auto Deployment"
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-      - develop
-  pull_request:
 
 jobs:
   chromatic:
+    name: Run Chromatic
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend  # 프로젝트 폴더 지정
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          path: frontend
+          fetch-depth: 0
 
-      - name: Debug - Check current directory
-        run: pwd && ls -al
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
-      - name: Publish to Chromatic
-        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      - name: Run Chromatic
+        id: chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: build-storybook
+          onlyChanged: true
+출처: https://coding-life-diary.tistory.com/28 [Dev Diary:티스토리]
