@@ -1,9 +1,6 @@
-name: "Auto Deployment"
+name: "Chromatic"
 
-on:
-  pull_request:
-    branches:
-      - main
+on: push
 
 jobs:
   chromatic:
@@ -14,19 +11,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          path: frontend  
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
       - name: Install dependencies
-        run: pnpm install
-
+        # ⚠️ See your package manager's documentation for the correct command to install dependencies in a CI environment.
+        run: npm ci
       - name: Run Chromatic
-        id: chromatic
         uses: chromaui/action@latest
         with:
+          # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          buildScriptName: build-storybook
-          onlyChanged: true
-출처: https://coding-life-diary.tistory.com/28 [Dev Diary:티스토리]
