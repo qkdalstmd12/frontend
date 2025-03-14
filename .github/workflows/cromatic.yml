@@ -14,6 +14,9 @@ permissions:
 jobs:
   chromatic:
     runs-on: ubuntu-latest
+     defaults:
+      run:
+        working-directory: frontend12
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
