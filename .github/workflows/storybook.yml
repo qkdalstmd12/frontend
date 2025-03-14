@@ -1,42 +1,21 @@
-name: Storybook Deployment
+name: 'Chromatic Deployment'
+
 on:
-  pull_request:
-    branches:
-      - develop
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
 jobs:
-  storybook:
-    runs-on: ubuntu-20.04
-    permissions: write-all
-    outputs:
-      status: ${{ job.status }}
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-storybook
+      - name: Install dependencies
+        run: npm install
 
-      - name: depedency install
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: publish to chromatic
-        id: chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: comment PR
-        uses: thollander/actions-comment-pull-request@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          message: '🚀storybook: ${{ steps.chromatic.outputs.storybookUrl }}'
-출처: https://feb-dain.tistory.com/9 [FEB:)DAIN:티스토리]
+      - name: Publish to Chromatic
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }}
