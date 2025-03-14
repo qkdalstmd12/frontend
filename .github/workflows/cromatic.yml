@@ -10,12 +10,22 @@ on:
 jobs:
   chromatic:
     runs-on: ubuntu-latest
-      defaults:
+    defaults:
       run:
-        working-directory: frontend
+        working-directory: frontend  # 프로젝트 폴더 지정
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          path: frontend
+
+      - name: Debug - Check current directory
+        run: pwd && ls -al
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
