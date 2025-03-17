@@ -37,8 +37,6 @@ npm run dev
 ⚛️ React	UI 구성 및 상태 관리
 📄 TypeScript	정적 타입 지원
 🏗 Zustand	전역 상태 관리
-🎨 Tailwind CSS	스타일링 및 반응형 디자인
-🔄 Drag & Drop	리스트 내 작업 이동
 🧪 Storybook	컴포넌트 UI 문서화 및 테스트
 
 📜 디렉토리 구조
