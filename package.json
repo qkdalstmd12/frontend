@@ -16,6 +16,8 @@
     "@storybook/addon-designs": "^8.2.1",
     "ci": "^2.3.0",
     "react": "^19.0.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
