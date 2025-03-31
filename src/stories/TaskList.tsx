@@ -14,9 +14,17 @@ interface TaskListProps {
   title: string;
   tasks: Task[];
   onAddTask: () => void;
+  onDeleteTask: (id: number) => void;
+  onEditTask: (id: number, newTitle: string) => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ title, tasks, onAddTask }) => {
+const TaskList: React.FC<TaskListProps> = ({
+  title,
+  tasks,
+  onAddTask,
+  onDeleteTask,
+  onEditTask,
+}) => {
   return (
     <div
       style={{
@@ -27,18 +35,32 @@ const TaskList: React.FC<TaskListProps> = ({ title, tasks, onAddTask }) => {
         background: 'white',
       }}
     >
-      {/* 리스트 상단 헤더 */}
-      <TaskHeader title={title} taskCount={tasks.length} onAddTask={onAddTask} />
+      {/* 상단 헤더 */}
+      <TaskHeader
+        title={title}
+        taskCount={tasks.length}
+        onAddTask={onAddTask}
+      />
 
-      {/* Task 목록 */}
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      {/* Task 카드 목록 */}
+      <div
+        style={{
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+        }}
+      >
         {tasks.map((task) => (
           <TaskCard
             key={task.id}
+            id={task.id}
             title={task.title}
             category={task.category}
             date={task.date}
             comments={task.comments}
+            onDelete={onDeleteTask}
+            onEdit={onEditTask}
           />
         ))}
       </div>
