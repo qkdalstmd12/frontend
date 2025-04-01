@@ -1,6 +1,7 @@
 import React from 'react';
 import TaskHeader from './TaskHeader';
 import TaskCard from './TaskCard';
+import { AnimatePresence } from 'framer-motion';
 
 interface Task {
   id: number;
@@ -51,18 +52,20 @@ const TaskList: React.FC<TaskListProps> = ({
           gap: '10px',
         }}
       >
-        {tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            id={task.id}
-            title={task.title}
-            category={task.category}
-            date={task.date}
-            comments={task.comments}
-            onDelete={onDeleteTask}
-            onEdit={onEditTask}
-          />
-        ))}
+        <AnimatePresence>
+          {tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              id={task.id}
+              title={task.title}
+              category={task.category}
+              date={task.date}
+              comments={task.comments}
+              onDelete={onDeleteTask}
+              onEdit={onEditTask}
+            />
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './pages/ProtectedRoute';
 import TaskList from './stories/TaskList';
-import { getCurrentUsername, removeToken } from './utils/auth'; 
+import { getCurrentUsername, removeToken } from './utils/auth';
+import ChatBox from './components/ChatBox';
 
 //  Task 데이터 타입 정의
 interface Task {
@@ -68,6 +69,9 @@ const TaskPage = ({
         onDeleteTask={handleDeleteTask}
         onEditTask={handleEditTask}
       />
+
+      {/* ✅ 채팅 기능 추가 */}
+      <ChatBox />
     </div>
   );
 };

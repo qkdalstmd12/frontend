@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CommentForm from './CommentForm';
 import MoreIcon from './MoreIcon';
+import { motion, AnimatePresence } from 'framer-motion'; 
 
 interface TaskCardProps {
   id: number;
@@ -41,7 +42,11 @@ const TaskCard: React.FC<TaskCardProps> = ({
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.3 }}
       style={{
         width: '322px',
         background: 'white',
@@ -133,41 +138,49 @@ const TaskCard: React.FC<TaskCardProps> = ({
         </span>
       </div>
 
-      {isCommentOpen && (
-        <div
-          style={{
-            marginTop: '10px',
-            borderTop: '1px solid #eee',
-            paddingTop: '8px',
-          }}
-        >
-          <CommentForm onSubmit={handleAddComment} />
-          <div style={{ marginTop: '10px' }}>
-            <strong>Comments:</strong>
-            <ul
-              style={{
-                padding: 0,
-                listStyleType: 'none',
-                marginTop: '5px',
-              }}
-            >
-              {commentList.map((comment, index) => (
-                <li
-                  key={index}
-                  style={{
-                    padding: '5px 0',
-                    fontSize: '14px',
-                    color: '#333',
-                  }}
-                >
-                  - {comment}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-    </div>
+      {/* 댓글 영역에 애니메이션 적용 */}
+      <AnimatePresence>
+        {isCommentOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              overflow: 'hidden',
+              marginTop: '10px',
+              borderTop: '1px solid #eee',
+              paddingTop: '8px',
+            }}
+          >
+            <CommentForm onSubmit={handleAddComment} />
+            <div style={{ marginTop: '10px' }}>
+              <strong>Comments:</strong>
+              <ul
+                style={{
+                  padding: 0,
+                  listStyleType: 'none',
+                  marginTop: '5px',
+                }}
+              >
+                {commentList.map((comment, index) => (
+                  <li
+                    key={index}
+                    style={{
+                      padding: '5px 0',
+                      fontSize: '14px',
+                      color: '#333',
+                    }}
+                  >
+                    - {comment}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
